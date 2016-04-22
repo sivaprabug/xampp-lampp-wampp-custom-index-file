@@ -1,0 +1,125 @@
+@font-face {
+    font-family: 'segoe_uiregular';
+    src: url('fonts/segoeui-webfont.eot');
+    src: url('fonts/segoeui-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/segoeui-webfont.woff') format('woff'), url('fonts/segoeui-webfont.ttf') format('truetype'), url('fonts/segoeui-webfont.svg#segoe_uiregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body,
+html {
+    background-color: #000;
+    font: 1em/1.5em Helvetica, sans-serif;
+}
+
+pre {
+    font-family: 'segoe_uiregular';
+}
+
+#pagewrap {
+    /*box-shadow: 6px 9px 15px #999999;*/
+    margin: 0 auto;
+    width: 80%;
+}
+
+#search {
+    background-color: #CB2549;
+    border-radius: 0;
+    color: #FFFFFF;
+    display: none;
+    margin-top: 15px;
+    padding: 7px;
+    position: fixed;
+    right: 155px;
+    font-family: 'segoe_uiregular';
+}
+
+#body {}
+
+table {
+    background-color: #000;
+    border-radius: 0;
+    padding: 10px;
+    width: 100%;
+}
+
+th.sortable {
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 2px 0;
+    font-family: 'segoe_uiregular';
+}
+
+th.sortable:hover {
+    color: black;
+}
+
+th.sorted-asc,
+th.sorted-desc {
+    color: black;
+}
+
+tr {
+    float: left;
+    margin: 5px;
+    padding: 5px;
+    width: auto;
+    background-color: #333;
+    transition: all 0.35s;
+}
+
+tr:hover {
+    background-color: #5FA916;
+    transition: all 0.35s;
+}
+
+td {
+    display: table;
+    text-align: left;
+    width: 350px;
+}
+
+.sub {
+    border: 0px solid #000000;
+    border-radius: 0;
+    height: 40px;
+    line-height: 41px;
+    padding-left: 0px;
+    font-family: 'segoe_uiregular';
+}
+
+td.odd {
+    /*height: 50px;*/
+}
+
+td.hovered {
+    color: #666666;
+}
+
+.sub:hover {
+    border: 0px solid #FFFFFF;
+    color: #FFFFFF;
+}
+
+a {
+    color: #F7F5EE;
+    font-family: 'segoe_uiregular';
+    font-size: 14px;
+    text-decoration: none;
+}
+
+input {
+    outline: medium none;
+}
+
+tr.head_tr {
+    background-color: #FA6801;
+}
+
+{
+    font-family: 'segoe_uiregular';
+    font-family: 'segoe_uiregular';
+    font-family: 'segoe_uiregular';
+}

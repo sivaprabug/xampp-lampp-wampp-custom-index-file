@@ -1,0 +1,1 @@
+# Custom index files for XAMPP LAMPP WAMPP
