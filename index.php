@@ -21,15 +21,15 @@
             <table cellpadding="0" cellspacing="0" id="resultTable">
                 <thead>
                     <tr class="head_tr">
-                        <th>&uarr; &darr; </th>
+                        <th title="Sorting by Name">&uarr; &darr; </th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
 if ($handle = opendir('.')) {
     while (false !== ($file = readdir($handle))) {
-        if ($file != "." && $file != "..") {
-            echo "<tr><td><a href=\" $file\" target='_blank'><div class='sub'>$file</div></a></td></tr>";
+if ($file != "." && $file != ".."&& $file != "zcss"&& $file != "zjs"&& $file != "index.php"&& $file != ".htaccess") {
+            echo "<tr><td><a href=\" $file\"><div class='sub'>$file</div></a></td></tr>";
         }
     }
     closedir($handle);
