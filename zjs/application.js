@@ -23,7 +23,7 @@ $(document).ready(function() {
 
             //we want each row to be visible because if nothing
             //is entered then all rows are matched.
-            //$('tbody tr').removeClass('visible').show().addClass('visible');
+            $('tbody tr').removeClass('visible').show().addClass('visible');
         }
 
         //if there is text, lets filter
