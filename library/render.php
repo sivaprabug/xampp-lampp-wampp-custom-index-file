@@ -130,7 +130,7 @@ foreach ($documents as $document) {
             <?php if (!$error): ?><a class="icon-button" href="<?= escapeHtml('library/render.php?file=' . rawurlencode($mdFile) . '&format=raw') ?>" target="_blank" rel="noopener" title="Raw Markdown" aria-label="Raw Markdown"><i class="fa-solid fa-code" aria-hidden="true"></i></a><?php endif; ?>
             <button class="icon-button" id="export-pdf" title="Export PDF" aria-label="Export PDF"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></button>
             <button class="icon-button" id="toc-toggle" title="Toggle table of contents" aria-label="Toggle table of contents" aria-controls="doc-toc" aria-expanded="true"><i class="fa-solid fa-list-ul" aria-hidden="true"></i></button>
-            <button class="icon-button" id="theme-toggle" title="Switch to light theme" aria-label="Switch to light theme"><i class="fa-regular fa-sun" aria-hidden="true"></i></button>
+            <button class="icon-button" id="theme-toggle" title="Dark Mode" aria-label="Dark Mode" aria-pressed="true"><i class="fa-regular fa-moon" aria-hidden="true"></i><span>Dark Mode</span></button>
         </div>
     </div>
 </header>

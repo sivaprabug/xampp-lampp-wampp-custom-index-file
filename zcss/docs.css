@@ -215,11 +215,18 @@ summary:focus-visible {
 .quick-actions > :first-child {
   margin-right: 6px;
 }
+#theme-toggle {
+  width: auto;
+  flex: 0 0 auto;
+  gap: 8px;
+  padding: 0 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
 .doc-container {
   display: grid;
   grid-template-columns: 256px minmax(0, 1fr) 224px;
-  max-width: 1800px;
-  margin: auto;
+  width: 100%;
   min-height: calc(100vh - var(--top-height));
 }
 .doc-sidebar,
@@ -382,9 +389,7 @@ summary:focus-visible {
 .doc-content {
   min-width: 0;
   width: 100%;
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 38px 48px 28px;
+  padding: 38px 32px 28px;
   outline: 0;
 }
 .document-meta {
@@ -882,7 +887,7 @@ dialog .diagram-viewport {
 }
 @media (max-width: 760px) {
   :root {
-    --top-height: 144px;
+    --top-height: 176px;
   }
   .topbar-navigation {
     padding: 0 12px;
@@ -906,9 +911,10 @@ dialog .diagram-viewport {
   }
   .topbar-tools {
     margin-top: 32px;
-    height: 58px;
+    height: 90px;
     padding: 0 12px;
     gap: 5px;
+    flex-wrap: wrap;
   }
   .target-field {
     gap: 6px;
@@ -932,6 +938,7 @@ dialog .diagram-viewport {
   }
   .quick-actions {
     gap: 0;
+    margin-left: auto;
   }
   .quick-actions .icon-button {
     width: 29px;

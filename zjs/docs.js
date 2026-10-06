@@ -272,10 +272,12 @@
 
     function syncThemeButton() {
         const dark = root.dataset.theme === 'dark';
-        const label = dark ? 'Switch to light theme' : 'Switch to dark theme';
+        const label = dark ? 'Dark Mode' : 'Light Mode';
         themeToggle.title = label;
         themeToggle.setAttribute('aria-label', label);
-        themeToggle.firstElementChild.className = dark ? 'fa-regular fa-sun' : 'fa-regular fa-moon';
+        themeToggle.setAttribute('aria-pressed', String(dark));
+        themeToggle.firstElementChild.className = dark ? 'fa-regular fa-moon' : 'fa-regular fa-sun';
+        themeToggle.querySelector('span').textContent = label;
     }
     syncThemeButton();
     themeToggle.addEventListener('click', () => {
