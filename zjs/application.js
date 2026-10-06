@@ -1,10 +1,36 @@
-$(document).ready(function() {
-    zebraRows('tr:odd td', 'odd');
+$(document).ready(function () {
+    // Theme toggle functionality
+    const themeToggle = $('#theme-toggle');
+    const body = $('body');
 
-    $('tbody tr').hover(function() {
-        $(this).find('td').addClass('hovered');
-    }, function() {
-        $(this).find('td').removeClass('hovered');
+    // Check for saved theme preference or default to dark mode
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    if (currentTheme === 'light') {
+        body.addClass('light-mode');
+        themeToggle.html('<i class="fas fa-sun"></i> Light Mode');
+    } else {
+        themeToggle.html('<i class="fas fa-moon"></i> Dark Mode');
+    }
+
+    themeToggle.click(function () {
+        body.toggleClass('light-mode');
+        const isLight = body.hasClass('light-mode');
+        const theme = isLight ? 'light' : 'dark';
+        localStorage.setItem('theme', theme);
+
+        if (isLight) {
+            $(this).html('<i class="fas fa-sun"></i> Light Mode');
+        } else {
+            $(this).html('<i class="fas fa-moon"></i> Dark Mode');
+        }
+    });
+
+    zebraRows('tbody tr:odd', 'odd');
+
+    $('tbody tr').hover(function () {
+        $(this).addClass('hovered');
+    }, function () {
+        $(this).removeClass('hovered');
     });
 
     //default each row to visible
@@ -15,7 +41,18 @@ $(document).ready(function() {
     //filter box
     $('#search').show();
 
-    $('#filter').keyup(function(event) {
+    // Intercept Tab key on filter to navigate to first result instead of Dark Mode button
+    $('#filter').keydown(function (event) {
+        if (event.keyCode == 9) { // Tab
+            var $firstLink = $('tbody tr.visible:first a');
+            if ($firstLink.length) {
+                event.preventDefault();
+                $firstLink.focus();
+            }
+        }
+    });
+
+    $('#filter').keyup(function (event) {
         //if esc is pressed or nothing is entered
         if (event.keyCode == 27 || $(this).val() == '') {
             //if esc is pressed we want to clear the value of search box
@@ -26,21 +63,34 @@ $(document).ready(function() {
             $('tbody tr').removeClass('visible').show().addClass('visible');
         }
 
+        // if Enter is pressed, move focus to the first visible result
+        else if (event.keyCode == 13) {
+            var $firstLink = $('tbody tr.visible:first a');
+            if ($firstLink.length) {
+                $firstLink.focus();
+            }
+            return;
+        }
+
         //if there is text, lets filter
         else {
-            filter('tbody tr', $(this).val());
+            $('#loading').show();
+            setTimeout(function () {
+                filter('tbody tr', $('#filter').val());
+                $('#loading').hide();
+            }, 100);
         }
 
         //reapply zebra rows
-        //$('.visible td').removeClass('odd');
-        //zebraRows('.visible:even td', 'odd');
+        $('.visible').removeClass('odd');
+        zebraRows('.visible:odd', 'odd');
     });
 
     //grab all header rows
-    $('thead th').each(function(column) {
+    $('thead th').each(function (column) {
         $(this).addClass('sortable')
-            .click(function() {
-                var findSortKey = function($cell) {
+            .click(function () {
+                var findSortKey = function ($cell) {
                     return $cell.find('.sort-key').text().toUpperCase() + ' ' + $cell.text().toUpperCase();
                 };
 
@@ -55,19 +105,19 @@ $(document).ready(function() {
                     .get();
 
                 //loop through all the rows and find
-                $.each($rows, function(index, row) {
+                $.each($rows, function (index, row) {
                     row.sortKey = findSortKey($(row).children('td').eq(column));
                 });
 
                 //compare and sort the rows alphabetically
-                $rows.sort(function(a, b) {
+                $rows.sort(function (a, b) {
                     if (a.sortKey < b.sortKey) return -sortDirection;
                     if (a.sortKey > b.sortKey) return sortDirection;
                     return 0;
                 });
 
                 //add the rows in the correct order to the bottom of the table
-                $.each($rows, function(index, row) {
+                $.each($rows, function (index, row) {
                     $('tbody').append(row);
                     row.sortKey = null;
                 });
@@ -82,9 +132,31 @@ $(document).ready(function() {
                     .filter(':nth-child(' + (column + 1) + ')')
                     .addClass('sorted');
 
-                $('.visible td').removeClass('odd');
-                zebraRows('.visible:even td', 'odd');
+                $('.visible').removeClass('odd');
+                zebraRows('.visible:odd', 'odd');
             });
+    });
+
+    // Arrow key navigation within result rows
+    $('tbody').on('keydown', 'a', function (event) {
+        var $visibleLinks = $('tbody tr.visible a');
+        var currentIndex = $visibleLinks.index(this);
+
+        if (event.keyCode == 40) { // ArrowDown
+            event.preventDefault();
+            var $next = $visibleLinks.eq(currentIndex + 1);
+            if ($next.length) $next.focus();
+        } else if (event.keyCode == 38) { // ArrowUp
+            event.preventDefault();
+            if (currentIndex === 0) {
+                $('#filter').focus();
+            } else {
+                var $prev = $visibleLinks.eq(currentIndex - 1);
+                if ($prev.length) $prev.focus();
+            }
+        } else if (event.keyCode == 27) { // Escape
+            $('#filter').focus();
+        }
     });
 });
 
@@ -100,7 +172,7 @@ function filter(selector, query) {
     query = $.trim(query); //trim white space
     query = query.replace(/ /gi, '|'); //add OR for regex
 
-    $(selector).each(function() {
-        ($(this).text().search(new RegExp(query, "i")) < 0) ? $(this).hide().removeClass('visible'): $(this).show().addClass('visible');
+    $(selector).each(function () {
+        ($(this).text().search(new RegExp(query, "i")) < 0) ? $(this).hide().removeClass('visible') : $(this).show().addClass('visible');
     });
 }
