@@ -9,4 +9,4 @@ A practical sample about managing an **OpenBMC** system. It also demonstrates th
 
 - [OpenBMC project](https://www.openbmc.org/)
 - [Redfish service root](https://github.com/openbmc/docs)
-- [Common commands](#common-commands)
+- [Common commands](#quick-links)
