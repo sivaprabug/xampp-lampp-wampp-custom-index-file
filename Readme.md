@@ -2,10 +2,6 @@
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/sivaprabug/xampp-lampp-wampp-custom-index-file)
 
-![Original custom index screenshot](https://raw.githubusercontent.com/gsivaprabu/xampp-lampp-wampp-custom-index-file/master/customIndexFileView.png)
-
-![Original custom index screenshot](https://raw.githubusercontent.com/gsivaprabu/xampp-lampp-wampp-custom-index-file/master/customIndexFileInnerView.png)
-
 ## Documentation viewer
 
 The Systems Library viewer renders local Markdown documentation for OpenBMC,
@@ -103,3 +99,9 @@ IBM Plex fonts, Font Awesome, highlight.js, and Mermaid load from external CDNs
 and require internet access. JavaScript is required for interactive controls,
 heading anchors, highlighting, and diagram rendering. If highlight.js or Mermaid
 cannot load, code and diagram sources remain readable.
+
+Sample Screeshots:
+
+![Original custom index screenshot](https://raw.githubusercontent.com/gsivaprabu/xampp-lampp-wampp-custom-index-file/master/customIndexFileView.png)
+
+![Original custom index inner page screenshot](https://raw.githubusercontent.com/gsivaprabu/xampp-lampp-wampp-custom-index-file/master/customIndexFileInnerView.png)
