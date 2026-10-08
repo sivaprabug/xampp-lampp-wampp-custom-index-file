@@ -67,6 +67,49 @@
         }
     }
 
+    async function copyRichContent(button) {
+        const article = content.cloneNode(true);
+        article.querySelectorAll('.code-toolbar, .diagram-toolbar').forEach(toolbar => toolbar.remove());
+        article.querySelectorAll('button').forEach(control => control.remove());
+        article.querySelectorAll('details').forEach(details => { details.open = true; });
+
+        const sourceSpans = content.querySelectorAll('span[class*="hljs-"]');
+        const copiedSpans = article.querySelectorAll('span[class*="hljs-"]');
+        sourceSpans.forEach((span, index) => {
+            const color = window.getComputedStyle(span).color;
+            if (copiedSpans[index]) copiedSpans[index].style.color = color;
+        });
+
+        article.querySelectorAll('pre').forEach(pre => {
+            pre.style.cssText += ';font-family:Consolas,monospace;font-size:10pt;background-color:#f3f4f6;padding:8px;white-space:pre-wrap';
+        });
+        article.querySelectorAll('code').forEach(code => {
+            code.style.fontFamily = 'Consolas,monospace';
+            code.style.fontSize = '10pt';
+        });
+
+        const html = `<html><body><div style="font-family:Arial,sans-serif;color:#202124;font-size:11pt;line-height:1.45">${article.innerHTML}</div></body></html>`;
+        const plain = article.innerText;
+        try {
+            if (!navigator.clipboard?.write || !window.ClipboardItem) throw new Error('Rich clipboard unavailable');
+            await navigator.clipboard.write([new ClipboardItem({
+                'text/html': new Blob([html], { type: 'text/html' }),
+                'text/plain': new Blob([plain], { type: 'text/plain' })
+            })]);
+            button.classList.add('copied');
+            button.title = 'Copied!';
+            button.setAttribute('aria-label', 'Copied!');
+            notify('Copied formatted content for Microsoft Teams');
+            setTimeout(() => {
+                button.classList.remove('copied');
+                button.title = button.dataset.label;
+                button.setAttribute('aria-label', button.dataset.label);
+            }, 1800);
+        } catch (error) {
+            await copyText(plain, button);
+        }
+    }
+
     function validTarget(value) {
         return /^(?:\d{1,3}\.){3}\d{1,3}$/.test(value)
             && value.split('.').every(part => Number(part) <= 255);
@@ -109,7 +152,8 @@
         label.textContent = ['bash', 'sh', 'shell'].includes(language) ? 'terminal / ' + language : language;
         const button = iconButton('fa-copy', 'Copy command', () => copyText(code.textContent, button));
         button.dataset.label = 'Copy command';
-        toolbar.append(label, button);
+        if (!['bash', 'sh', 'shell', 'json', 'yaml', 'yml'].includes(language)) toolbar.append(label);
+        toolbar.append(button);
         container.prepend(toolbar);
         return { code, source, language };
     });
@@ -139,6 +183,11 @@
         else notify('Enter a valid target IPv4 address first.');
     });
     document.getElementById('export-pdf').addEventListener('click', () => window.print());
+    const copyAll = document.getElementById('copy-all');
+    if (copyAll) {
+        copyAll.dataset.label = 'Copy all content for Microsoft Teams';
+        copyAll.addEventListener('click', () => copyRichContent(copyAll));
+    }
 
     const headings = Array.from(content?.querySelectorAll('h1, h2, h3') || []);
     const usedIds = new Set();
